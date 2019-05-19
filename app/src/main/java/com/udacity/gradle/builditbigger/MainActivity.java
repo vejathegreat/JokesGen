@@ -1,12 +1,12 @@
 package com.udacity.gradle.builditbigger;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.velaphi.displayjokelib.DisplayJokesActivity;
 
@@ -42,16 +42,16 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressLint("StaticFieldLeak")
     public void tellJoke(View view) {
 
-            new EndpointsAsyncTask(new EndpointsAsyncTask.TaskCompleteListener() {
-                @Override
-                public void onTaskComplete(String result) {
-                    Intent intent = new Intent(MainActivity.this, DisplayJokesActivity.class);
-                    intent.putExtra(DisplayJokesActivity.EXTRAS_JOKE, result);
-                    startActivity(intent);
-                }
-            }).execute(this);
-        }
-
+        new EndpointsAsyncTask() {
+            @Override
+            protected void onPostExecute(String result) {
+                Intent intent = new Intent(MainActivity.this, DisplayJokesActivity.class);
+                intent.putExtra(DisplayJokesActivity.EXTRAS_JOKE, result);
+                startActivity(intent);
+            }
+        }.execute();
+    }
 }
