@@ -1,6 +1,7 @@
 package com.udacity.gradle.builditbigger;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -32,7 +33,9 @@ class EndpointsAsyncTask extends AsyncTask<Void, Void, String> {
         try {
             return myApiService.getRandomJoke().execute().getData();
         } catch (IOException e) {
-            return "Error in retrieving the Joke";
+            String TAG = "EndpointsAsyncTask";
+            Log.e(TAG, e.getMessage());
+            return " ";
         }
     }
 }
